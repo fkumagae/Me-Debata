@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111116">
+  <meta name="description" content="ME DEBATA — jogo de debates improvisados com roletas de teses.">
+  <title>ME DEBATA — Jogo de debates</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="ME DEBATA início"><span class="brand-mark">MD</span><span>ME <b>DEBATA</b></span></a>
+    <div class="top-actions"><span class="saved-indicator" id="saved-indicator">● Salvo neste navegador</span><button class="button button-ghost button-small" id="export-btn">Exportar temas</button><button class="button button-ghost button-small" id="import-btn">Importar JSON</button><input type="file" id="import-file" accept="application/json,.json" hidden></div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <p class="eyebrow">O argumento mais absurdo pode vencer.</p>
+      <h1>ME <span>DEBATA.</span></h1>
+      <p class="hero-copy">Gire. Defenda. Destrua os argumentos. <strong>Não vale fugir do debate.</strong></p>
+    </section>
+
+    <section class="game-layout">
+      <div class="main-column">
+        <section class="panel roulette-panel">
+          <div class="section-heading"><div><p class="eyebrow">01 / SORTEIO</p><h2>Monte a tese</h2></div><span class="pill">3 roletas</span></div>
+          <div class="reels" aria-live="polite">
+            <div class="reel"><span class="reel-label">SUJEITO</span><div class="reel-value" id="subject-result">Bombeiros</div><span class="reel-caption">Quem?</span></div>
+            <div class="reel"><span class="reel-label">AÇÃO</span><div class="reel-value" id="verb-result">defendem</div><span class="reel-caption">Faz o quê?</span></div>
+            <div class="reel"><span class="reel-label">COMPLEMENTO</span><div class="reel-value" id="object-result">parques</div><span class="reel-caption">O quê?</span></div>
+          </div>
+          <div class="thesis-card"><span class="thesis-label">SUA TESE DA RODADA</span><h3 id="thesis-result">Bombeiros defendem parques.</h3><p id="round-count">Rodada 1</p></div>
+          <button class="button button-primary button-large button-full" id="spin-btn"><span aria-hidden="true">🎰</span> GIRAR AS ROLETAS</button>
+        </section>
+
+        <section class="panel debate-panel">
+          <div class="section-heading"><div><p class="eyebrow">02 / CONFRONTO</p><h2>Escolham seus lados</h2></div></div>
+          <div class="sides">
+            <div class="side-card side-for"><span class="side-icon">▲</span><div><span class="side-kicker">TIME VERMELHO</span><h3>A FAVOR</h3><p>Defenda a tese sorteada.</p></div></div>
+            <div class="side-card side-against"><span class="side-icon">▼</span><div><span class="side-kicker">TIME PRETO</span><h3>CONTRA</h3><p>Desmonte a tese sorteada.</p></div></div>
+          </div>
+          <div class="players-grid">
+            <label>Jogador a favor<input id="player-for" placeholder="Nome do jogador" maxlength="50"></label>
+            <label>Jogador contra<input id="player-against" placeholder="Nome do jogador" maxlength="50"></label>
+          </div>
+          <div class="timer-box">
+            <div><span class="side-kicker">TEMPO DO DEBATE</span><div class="timer" id="timer-display">00:45</div></div>
+            <div class="timer-controls"><button class="button button-ghost" id="timer-start">▶ Iniciar</button><button class="button button-ghost" id="timer-reset">↺ Reiniciar</button></div>
+          </div>
+          <div class="duration-options" role="group" aria-label="Duração do cronômetro"><button class="duration-option active" data-seconds="45">45 s</button><button class="duration-option" data-seconds="60">60 s</button><button class="duration-option" data-seconds="90">90 s</button></div>
+          <div class="judge-actions"><label>Quem venceu?<select id="winner-select"><option value="">Escolha após o debate</option><option value="for">Jogador a favor</option><option value="against">Jogador contra</option><option value="draw">Empate</option></select></label><button class="button button-primary" id="record-btn">Registrar resultado</button></div>
+        </section>
+
+        <section class="panel editor-panel">
+          <div class="section-heading"><div><p class="eyebrow">03 / PERSONALIZAÇÃO</p><h2>Editar roletas</h2></div><span class="pill">Temas ilimitados</span></div>
+          <p class="muted">Adicione ou remova opções. Separe cada item por uma linha; as mudanças ficam salvas neste navegador.</p>
+          <div class="editor-grid">
+            <label>Sujeitos / substantivos<textarea id="subjects-editor" rows="7"></textarea></label>
+            <label>Verbos / ações<textarea id="verbs-editor" rows="7"></textarea></label>
+            <label>Complementos<textarea id="objects-editor" rows="7"></textarea></label>
+          </div>
+          <div class="editor-actions"><button class="button button-primary" id="save-themes-btn">Salvar roletas</button><button class="button button-ghost" id="reset-themes-btn">Restaurar padrão</button></div>
+          <p class="inline-message" id="editor-message" role="status"></p>
+        </section>
+      </div>
+
+      <aside class="sidebar">
+        <section class="panel scoreboard-panel"><div class="section-heading"><div><p class="eyebrow">PLACAR</p><h2>Quem tá perdendo?</h2></div><span class="score-icon">🏆</span></div>
+          <div id="scoreboard" class="scoreboard empty-state">Registre a primeira rodada para montar o placar.</div>
+          <button class="button button-ghost button-full" id="clear-score-btn">Zerar placar e histórico</button>
+        </section>
+        <section class="panel history-panel"><div class="section-heading"><div><p class="eyebrow">MEMÓRIA DA TRETA</p><h2>Últimas rodadas</h2></div></div><ol id="history-list" class="history-list"><li class="empty-state">Nenhum debate registrado ainda.</li></ol></section>
+        <section class="rules-card"><span class="rules-emoji">⚖️</span><h3>Regras rápidas</h3><ol><li>Gire as três roletas.</li><li>Sorteiem ou escolham quem fica a favor e contra.</li><li>Argumentem sem fugir da tese.</li><li>O mediador decide o vencedor.</li><li>Quem perder mais paga a bata da república.</li></ol><p>Joguem na esportiva. O mediador tem a palavra final.</p></section>
+      </aside>
+    </section>
+    <footer><span>ME DEBATA © 2026</span><span>Feito para boas discussões e péssimas teses.</span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

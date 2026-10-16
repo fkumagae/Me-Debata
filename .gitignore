@@ -1,0 +1,18 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Dependências futuras
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Artefatos
+*.log
+coverage/
+dist/

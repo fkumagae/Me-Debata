@@ -1,0 +1,18 @@
+name: Validate static app
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check required files
+        run: |
+          test -f index.html
+          test -f assets/css/styles.css
+          test -f assets/js/app.js
+          test -f data/themes.json
+          python -m json.tool data/themes.json > /dev/null
